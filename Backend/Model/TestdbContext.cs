@@ -8,6 +8,7 @@ public partial class TestdbContext : DbContext
 {
     public TestdbContext()
     {
+        Database.EnsureCreated();
     }
 
     public TestdbContext(DbContextOptions<TestdbContext> options)
