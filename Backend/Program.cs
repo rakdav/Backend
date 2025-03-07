@@ -37,7 +37,10 @@ while (true)
     }
     else if (method == "PUT")
     {
-
+        switch (table)
+        {
+            case "client": break;
+        }
     }
    
 }

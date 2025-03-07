@@ -22,7 +22,7 @@ namespace Backend.Controller
                     City = person!.City,
                     Company = person.Company,
                     Firstname = person.Firstname,
-                    Phone = person.Firstname,
+                    Phone = person.Phone,
                     Lastname = person.Lastname,
                     Surname = person.Surname
                 });
