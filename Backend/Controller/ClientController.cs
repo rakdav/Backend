@@ -57,5 +57,53 @@ namespace Backend.Controller
                 Console.WriteLine("Запрос обработан");
             }
         }
+        public async static void deleteClient(string query, HttpListenerContext context)
+        {
+            using (TestdbContext db = new TestdbContext())
+            {
+                Client desClient = JsonSerializer.Deserialize<Client>(query)!;
+                Client client = db.Clients.FirstOrDefault(p => p.Clientid == desClient.Clientid)!;
+                var response = context.Response;
+                string responseText = "";
+                
+                if (client != null)
+                {
+                    db.Remove(client);
+                    await db.SaveChangesAsync();
+                    responseText = "Yes";
+                }
+                else responseText = "No";
+                byte[] buffer = Encoding.UTF8.GetBytes(responseText);
+                response.ContentLength64 = buffer.Length;
+                response.ContentType = "text/html";
+                response.ContentEncoding = Encoding.UTF8;
+                using Stream output = response.OutputStream;
+                await output.WriteAsync(buffer);
+                await output.FlushAsync();
+                Console.WriteLine("Запрос обработан");
+            }
+        }
+        public async static void getClientById(int id,
+            HttpListenerContext context)
+        {
+            using (TestdbContext db = new TestdbContext())
+            {
+                Client client = db.Clients.FirstOrDefault(p => p.Clientid == id)!;
+                if (client != null)
+                {
+                    string json = JsonSerializer.Serialize<Client>(client);
+                    var response = context.Response;
+                    string responseText = json;
+                    byte[] buffer = Encoding.UTF8.GetBytes(responseText);
+                    response.ContentLength64 = buffer.Length;
+                    response.ContentType = "text/html";
+                    response.ContentEncoding = Encoding.UTF8;
+                    using Stream output = response.OutputStream;
+                    await output.WriteAsync(buffer);
+                    await output.FlushAsync();
+                    Console.WriteLine("Запрос обработан");
+                }
+            }
+        }
     }
 }

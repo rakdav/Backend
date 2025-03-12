@@ -32,7 +32,15 @@ while (true)
     {
         switch (table)
         {
-            case "client": ClientController.getClients(context); break;
+            case "client":
+                {
+                    if (query=="getClients")
+                        ClientController.getClients(context);
+                    else
+                        ClientController.getClientById(int.Parse(query),context);
+                }
+                break;
+            case "sdelka":SdelkaController.getSdelkas(context);break;
         }
     }
     else if (method == "PUT")
@@ -42,7 +50,14 @@ while (true)
             case "client": break;
         }
     }
-   
+    else if (method == "DELETE")
+    {
+        switch (table)
+        {
+            
+            case "client": ClientController.deleteClient(query,context); break;
+        }
+    }
 }
 server.Stop();
 
